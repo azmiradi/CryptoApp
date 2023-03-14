@@ -11,27 +11,38 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:id="@+id/data"
+        android:hint="type.."
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/encrypt"
+        app:layout_constraintBottom_toTopOf="@+id/save"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/data"
+        android:id="@+id/text"
+        android:textSize="20sp"
+        android:layout_margin="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         />
     <Button
-        android:id="@+id/encrypt"
+        android:id="@+id/read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="encrypt"
+        android:text="Read"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/decrypt"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/save"
+        app:layout_constraintTop_toBottomOf="@+id/text" />
 
     <Button
-        android:id="@+id/decrypt"
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="decrypt"
-        app:layout_constraintEnd_toStartOf="@+id/encrypt"
+        android:text="Save"
+        app:layout_constraintEnd_toStartOf="@+id/read"
         app:layout_constraintBottom_toBottomOf="parent"
          app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

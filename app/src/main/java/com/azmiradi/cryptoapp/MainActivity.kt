@@ -1,38 +1,55 @@
 package com.azmiradi.cryptoapp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
+
+const val KEY_NAME= "key_name"
 class MainActivity : AppCompatActivity() {
-    var cipherText: String = ""
+    lateinit var cryptoData: CryptoData
+
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val cryptoData = CryptoData()
-
+        val textData = findViewById<TextView>(R.id.text)
         val inputEditText = findViewById<EditText>(R.id.data)
+        val saveBu = findViewById<Button>(R.id.save)
+        val readBu = findViewById<Button>(R.id.read)
+        cryptoData = CryptoData()
 
-        findViewById<Button>(R.id.encrypt)
-            .setOnClickListener {
+        sharedPreferences = getSharedPreferences("setting", MODE_PRIVATE)
 
-                val bytes = inputEditText.text.toString().toByteArray()
+        saveBu.setOnClickListener {
+            saveName(inputEditText.text.toString())
+        }
 
-                cipherText= Base64.getEncoder().encodeToString(cryptoData.encrypt(bytes = bytes))
+        readBu.setOnClickListener {
+            textData.text = readName()
+        }
+    }
 
-                inputEditText.setText(cipherText)
-            }
+    private fun saveName(name: String) {
+        val bytes = name.toByteArray()
+        val encryptedText =
+            Base64.getEncoder().encodeToString(cryptoData.encrypt(bytes = bytes))
 
-        findViewById<Button>(R.id.decrypt)
-            .setOnClickListener {
-                val originalText = cryptoData.decrypt(Base64.getDecoder().decode(cipherText))?.decodeToString()
+        val editor = sharedPreferences.edit()
+        editor.putString(KEY_NAME,encryptedText)
+        editor.apply()
+    }
 
-                inputEditText.setText(originalText)
-            }
+    private fun readName(): String {
+        val name = sharedPreferences.getString(KEY_NAME, "")
+        val originalText =
+            cryptoData.decrypt(Base64.getDecoder().decode(name))?.decodeToString()
+        return originalText ?: ""
     }
 
 }
